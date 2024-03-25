@@ -23,11 +23,11 @@
 
 using namespace std;
 
-class GeometryDumper : public edm::one::EDAnalyzer<edm::one::WatchRuns>
+class RPCGeometryDumper : public edm::one::EDAnalyzer<edm::one::WatchRuns>
 {
 public:
-  explicit GeometryDumper(const edm::ParameterSet&);
-  ~GeometryDumper() = default;
+  explicit RPCGeometryDumper(const edm::ParameterSet&);
+  ~RPCGeometryDumper() = default;
 
   static void fillDescriptions(edm::ConfigurationDescriptions&);
 
@@ -43,13 +43,13 @@ private:
   const char delimeter_ = ',';
 };
 
-GeometryDumper::GeometryDumper(const edm::ParameterSet& iConfig):
+RPCGeometryDumper::RPCGeometryDumper(const edm::ParameterSet& iConfig):
   rpcGeomToken_(esConsumes<edm::Transition::BeginRun>()), 
   outputFileName_(iConfig.getUntrackedParameter<std::string>("outputFileName"))
 {}
 
 
-void GeometryDumper::fillDescriptions(edm::ConfigurationDescriptions& descriptions)
+void RPCGeometryDumper::fillDescriptions(edm::ConfigurationDescriptions& descriptions)
 {
   edm::ParameterSetDescription desc;
   desc.setUnknown();
@@ -57,7 +57,7 @@ void GeometryDumper::fillDescriptions(edm::ConfigurationDescriptions& descriptio
 }
 
 
-void GeometryDumper::beginRun(const edm::Run&, const edm::EventSetup& iSetup)
+void RPCGeometryDumper::beginRun(const edm::Run&, const edm::EventSetup& iSetup)
 {
   const auto& rpcGeom = iSetup.getData(rpcGeomToken_);
 
@@ -109,4 +109,4 @@ void GeometryDumper::beginRun(const edm::Run&, const edm::EventSetup& iSetup)
 }
 
 #include "FWCore/Framework/interface/MakerMacros.h"
-DEFINE_FWK_MODULE(GeometryDumper);
+DEFINE_FWK_MODULE(RPCGeometryDumper);
