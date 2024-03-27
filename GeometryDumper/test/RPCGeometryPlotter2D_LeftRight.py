@@ -4,10 +4,10 @@ import matplotlib.pyplot as plt
 import matplotlib.offsetbox as offsetbox
 import os
 
-path = '140X_mcRun3_2024_design_v6.csv'
+path = 'csv/auto_phase2_realistic_T33.csv'
 geometry = pd.read_csv(path, sep=',', index_col=False)
 
-region_name = 'RE+3'
+region_name = 'RE+4'
 region_geometry = geometry[geometry['roll_name'].str.startswith(region_name)]
 
 fig, ax = plt.subplots(figsize=(40, 32))
@@ -60,15 +60,15 @@ ax.set_title(f'RPC {region_name} Geometry', fontsize=60)
 ax.set_xlabel('Local X', fontsize=50)
 ax.set_ylabel('Local Y', fontsize=50)
 
-global_tag = '140X_mcRun3_2024_design_v6'
-geometry_tag = 'RPCRECO_Geometry_141DD4hepV2'
-payload = '6fc19c3ffed82f7dfd0a5c51d6cee5f1245862f6'
-
-offsetbox = offsetbox.AnchoredText(
-    f' GT: {global_tag}\n Tag: {geometry_tag}\n payload: {payload} ',
-    loc='upper right',
-    prop=dict(size=30)
-)
-ax.add_artist(offsetbox)
+global_tag = 'auto_phase2_realistic_T33'
+#geometry_tag = 'RPCRECO_Geometry_141DD4hepV2'
+#payload = '6fc19c3ffed82f7dfd0a5c51d6cee5f1245862f6'
+#
+#offsetbox = offsetbox.AnchoredText(
+#    f' GT: {global_tag}\n Tag: {geometry_tag}\n payload: {payload} ',
+#    loc='upper right',
+#    prop=dict(size=30)
+#)
+#ax.add_artist(offsetbox)
 
 plt.savefig(f'{global_tag}-{region_name}.png')

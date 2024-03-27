@@ -39,7 +39,7 @@ private:
   edm::ESGetToken<RPCGeometry, MuonGeometryRecord> rpcGeomToken_;
   const std::string outputFileName_;
     
-  const std::string header_ = "roll_name,det_id,area,x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4";
+  const std::string header_ = "roll_name,det_id,area,is_front,x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4";
   const char delimeter_ = ',';
 };
 
@@ -68,6 +68,16 @@ void RPCGeometryDumper::beginRun(const edm::Run&, const edm::EventSetup& iSetup)
   {
     const auto detId = roll->id();
     const string rollName = RPCGeomServ(detId).name();
+    bool isFront = false;
+    if (detId.ring() == 1 && detId.station()) 
+    {
+      isFront = (detId.subsector() != 2);
+      if (detId.sector() % 2 == 0) isFront = !isFront;
+    } 
+    else 
+    {
+      isFront = (detId.subsector() % 2 == 0);
+    }
 
     const auto& bound = roll->surface().bounds();
     const float h = bound.length();
@@ -93,6 +103,7 @@ void RPCGeometryDumper::beginRun(const edm::Run&, const edm::EventSetup& iSetup)
     fout << rollName        << delimeter_
          << detId.rawId()   << delimeter_
          << area            << delimeter_
+         << isFront         << delimeter_
          << gp1.x()         << delimeter_
          << gp1.y()         << delimeter_
          << gp1.z()         << delimeter_

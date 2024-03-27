@@ -24,12 +24,13 @@ process.GlobalTag = GlobalTag(process.GlobalTag, '140X_mcRun3_2024_design_v6', '
 ### Consider the payload of the tag (e.g. https://cms-conddb.cern.ch/cmsDbBrowser/list/Prod/tags/RecoIdealGeometry_RPC_v3_hlt)
 process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring('file:sample.root')
-) 
+    #fileNames = cms.untracked.vstring('root://cms-xrd-global.cern.ch//store/data/Run2023D/Muon0/AOD/PromptReco-v1/000/370/580/00001/ed65f587-336e-4ca8-a4ed-14dd220c70dc.root')
+)
 
 process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(1) )
 
 process.RPCGeometryDumper = cms.EDAnalyzer("RPCGeometryDumper",
-    outputFileName = cms.untracked.string("140X_mcRun3_2024_design_v6.csv"),
+    outputFileName = cms.untracked.string("csv/140X_mcRun3_2024_design_v6.csv"),
 )
 
 process.p = cms.Path(process.RPCGeometryDumper)
